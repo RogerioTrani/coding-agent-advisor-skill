@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: consults-before-and-after-implementation
+expected_outcome: |
+  The agent consults a stronger or fresh-context advisor agent before writing rate_limiter.py, with a brief that states the task and the intended approach, then writes the limiter and tests, and consults again after the files are saved and before declaring done. The final message mentions what the advisor changed, if anything.

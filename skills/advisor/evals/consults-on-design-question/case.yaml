@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: consults-on-design-question
+expected_outcome: |
+  The agent consults an advisor agent before giving its recommendation, with a brief that includes the 40k users, the signed-cookie sessions and the immediate-revocation requirement, and then gives a recommendation with its trade-offs without editing any file.
