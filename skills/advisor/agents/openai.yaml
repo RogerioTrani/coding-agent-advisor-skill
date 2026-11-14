@@ -1,0 +1,4 @@
+interface:
+  display_name: "Advisor"
+  short_description: "Consult a stronger model before committing, when stuck, and before done"
+  default_prompt: "Use $advisor to get a stronger model's review of the plan before writing code and of the result before declaring done."

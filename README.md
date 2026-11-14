@@ -21,6 +21,14 @@ Agents that read skills from `.agents/skills`, for one project:
 cp -r coding-agent-advisor-skill/skills/advisor .agents/skills/advisor
 ```
 
+Codex, for every project on your machine:
+
+```bash
+cp -r coding-agent-advisor-skill/skills/advisor ~/.agents/skills/advisor
+```
+
+The folder includes `agents/openai.yaml`, the metadata file Codex reads for the skill's display name and default prompt. Other agents ignore it.
+
 The skill is plain Markdown. If your agent has no skills folder, paste the body of [`skills/advisor/SKILL.md`](skills/advisor/SKILL.md) into its rules file (`AGENTS.md`, `CLAUDE.md`, or the equivalent).
 
 ## What the agent does with it
