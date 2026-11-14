@@ -1,0 +1,20 @@
+{
+  "name": "advisor",
+  "description": "Agent skill that pairs a coding agent with a stronger advisor model, consulted before committing to an approach, when stuck, and before declaring done. Uses the host's own subagents; no API key.",
+  "version": "0.2.0",
+  "author": {
+    "name": "Rogerio Trani"
+  },
+  "homepage": "https://github.com/RogerioTrani/coding-agent-advisor-skill",
+  "repository": "https://github.com/RogerioTrani/coding-agent-advisor-skill",
+  "license": "MIT",
+  "keywords": [
+    "advisor",
+    "advisor-pattern",
+    "subagents",
+    "second-opinion",
+    "plan-review",
+    "code-review",
+    "skills"
+  ]
+}

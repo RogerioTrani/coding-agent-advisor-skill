@@ -1,0 +1,9 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "advisor",
+  "description": "Agent skill that pairs a coding agent with a stronger advisor model, consulted before committing to an approach, when stuck, and before declaring done. Uses the host's own subagents; no API key.",
+  "version": "0.2.0",
+  "author": {
+    "name": "Rogerio Trani"
+  }
+}

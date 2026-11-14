@@ -6,30 +6,102 @@ The skill follows the executor and advisor pattern of Anthropic's [advisor tool]
 
 ## Install
 
-Copy the `skills/advisor` folder into your agent's skills folder.
-
-Claude Code, for every project on your machine:
+The skill is one folder, `skills/advisor`. Every agent below loads it from a skills directory, so installing means copying that folder to the right place. `install.py` does the copy and knows each agent's directory.
 
 ```bash
 git clone https://github.com/RogerioTrani/coding-agent-advisor-skill
-cp -r coding-agent-advisor-skill/skills/advisor ~/.claude/skills/advisor
 ```
-
-Agents that read skills from `.agents/skills`, for one project:
 
 ```bash
-cp -r coding-agent-advisor-skill/skills/advisor .agents/skills/advisor
+python coding-agent-advisor-skill/install.py --host agents
 ```
 
-Codex, for every project on your machine:
+`--host agents` writes to `~/.agents/skills`, the shared directory that Codex, Cursor, GitHub Copilot, Gemini CLI, Kimi Code, Qwen Code, opencode, Codewhale, Devin, Windsurf, Roo Code, Kilo Code, Mistral Vibe, Junie, Goose and Amp all read according to their own documentation. Claude Code reads `~/.claude/skills` instead, so use `--host claude` there. Add `--project` to install into the current repository, or `--dir PATH` for any other location. Without Python, copy the folder by hand: `cp -r coding-agent-advisor-skill/skills/advisor ~/.agents/skills/advisor`.
+
+### Directories by agent
+
+Paths come from each agent's documentation as read in November 2026. Only Claude Code was tested with this skill.
+
+| Agent | User directory (`--host`) | Project directory (`--project`) |
+|---|---|---|
+| Claude Code (`claude`) | `~/.claude/skills` | `.claude/skills` |
+| Codex (`codex`) | `~/.agents/skills` | `.agents/skills` |
+| Cursor (`cursor`) | `~/.cursor/skills` | `.cursor/skills` |
+| GitHub Copilot (`copilot`) | `~/.copilot/skills` | `.github/skills` |
+| Gemini CLI (`gemini`) | `~/.gemini/skills` | `.gemini/skills` |
+| Google Antigravity (`antigravity`) | `~/.gemini/config/skills` | `.agents/skills` |
+| Kimi Code (`kimi`) | `~/.kimi-code/skills` | `.kimi-code/skills` |
+| Qwen Code (`qwen`) | `~/.qwen/skills` | `.qwen/skills` |
+| opencode (`opencode`) | `~/.config/opencode/skills` | `.opencode/skills` |
+| Codewhale (`codewhale`) | `~/.codewhale/skills` | `.codewhale/skills` |
+| Devin (`devin`) | `~/.config/devin/skills`, on Windows `%APPDATA%\devin\skills` | `.agents/skills` |
+| Windsurf (`windsurf`) | same as Devin | `.devin/skills` |
+| Cline (`cline`) | `~/.cline/skills` | `.cline/skills` |
+| Roo Code (`roo`) | `~/.roo/skills` | `.roo/skills` |
+| Kilo Code (`kilo`) | `~/.kilo/skills` | `.kilo/skills` |
+| Mistral Vibe (`vibe`) | `~/.vibe/skills` | `.vibe/skills` |
+| JetBrains Junie (`junie`) | `~/.junie/skills` | `.junie/skills` |
+| Kiro (`kiro`) | `~/.kiro/skills` | `.kiro/skills` |
+| Amp (`amp`) | `~/.config/agents/skills` | `.agents/skills` |
+| Goose (`agents`) | `~/.agents/skills` | `.agents/skills` |
+
+### Install from GitHub without cloning
+
+Some agents install straight from a repository. These commands follow each agent's documentation and have not been run against this repository, except the Claude Code manifest, which passes `claude plugin validate`.
+
+Claude Code:
+
+```
+/plugin marketplace add RogerioTrani/coding-agent-advisor-skill
+/plugin install advisor@coding-agent-advisor-skill
+```
+
+Kimi Code:
+
+```
+/plugins install https://github.com/RogerioTrani/coding-agent-advisor-skill
+```
+
+GitHub Copilot, with GitHub CLI 2.90 or newer:
 
 ```bash
-cp -r coding-agent-advisor-skill/skills/advisor ~/.agents/skills/advisor
+gh skill install RogerioTrani/coding-agent-advisor-skill advisor
 ```
 
-The folder includes `agents/openai.yaml`, the metadata file Codex reads for the skill's display name and default prompt. Other agents ignore it.
+Amp:
 
-The skill is plain Markdown. If your agent has no skills folder, paste the body of [`skills/advisor/SKILL.md`](skills/advisor/SKILL.md) into its rules file (`AGENTS.md`, `CLAUDE.md`, or the equivalent).
+```bash
+amp skill add RogerioTrani/coding-agent-advisor-skill
+```
+
+Kiro: in the Agent Steering & Skills panel choose Import a skill, then GitHub, and paste `https://github.com/RogerioTrani/coding-agent-advisor-skill/tree/main/skills/advisor`.
+
+### Manifests in this repository
+
+| File | Read by |
+|---|---|
+| `skills/advisor/agents/openai.yaml` | Codex: display name and default prompt |
+| `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json` | Claude Code plugin marketplace |
+| `.codex-plugin/plugin.json` | Codex plugin packaging |
+| `.kimi-plugin/plugin.json` | Kimi Code `/plugins` |
+| `.cursor-plugin/plugin.json` | Cursor plugins |
+| `gemini-extension.json` | Gemini CLI and Qwen Code extensions |
+| `plugin.json` | Agent Plugin format, used by Mistral Vibe and Cursor |
+
+### Manus
+
+Manus keeps skills in your account. Download `advisor.skill` from the [latest release](https://github.com/RogerioTrani/coding-agent-advisor-skill/releases/latest), open Skills, choose Add, then Upload a skill.
+
+### Agents without a skills directory
+
+For DeepSeek Harness, Aider, Continue and any agent that only reads a rules file, add this to `AGENTS.md` (or the agent's equivalent) in your project:
+
+```markdown
+advisor: consult a stronger model before committing to an approach, when stuck, and before declaring done.
+Read skills/advisor/SKILL.md from the coding-agent-advisor-skill repository and follow it.
+```
+
+The skill only helps where the agent can start a subagent or a second model session. Where it cannot, the skill tells the agent to say so and continue alone.
 
 ## What the agent does with it
 
@@ -71,7 +143,11 @@ No. It uses the subagent or second-model feature of the agent you are already si
 
 ### Which coding agents does it work with?
 
-It was tested in Claude Code. The file follows the Agent Skills format (`SKILL.md` with `name` and `description`), so agents that load that format can read it. It only does something useful where the agent can start a subagent or a second model session.
+It was tested in Claude Code. The file follows the Agent Skills format (`SKILL.md` with `name` and `description`), which Codex, Cursor, GitHub Copilot, Gemini CLI, Antigravity, Kimi Code, Qwen Code, opencode, Devin, Windsurf, Cline, Roo Code, Kilo Code, Mistral Vibe, Junie, Kiro, Amp, Goose and Manus document as supported. The install section lists the directory for each one. It only does something useful where the agent can start a subagent or a second model session.
+
+### Does it need a YAML file?
+
+Only Codex reads one: `agents/openai.yaml` inside the skill folder, which sets the display name and default prompt. It is included. The other agents read `SKILL.md` alone, and their plugin manifests are JSON.
 
 ### What if my agent already runs the strongest model?
 
