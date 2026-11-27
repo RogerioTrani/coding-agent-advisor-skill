@@ -6,6 +6,18 @@ The skill follows the executor and advisor pattern of Anthropic's [advisor tool]
 
 ## Install
 
+### With npx skills
+
+```bash
+npx skills add RogerioTrani/coding-agent-advisor-skill -g
+```
+
+The [skills CLI](https://github.com/vercel-labs/skills) finds the coding agents installed on your machine and puts the skill in each one's global skills directory. It needs Node.js. Add `@<tag>` after the repository name to pin a release (`RogerioTrani/coding-agent-advisor-skill@v0.2.0`), `-a claude-code codex` to choose the agents, and `--copy` to install copies instead of symlinks. `npx skills update -g` updates the skill and `npx skills remove advisor -g` removes it. The CLI sends anonymous usage data unless you set `DISABLE_TELEMETRY=1`.
+
+Of the agents in the table below, the skills CLI covers Claude Code, Codex, Cursor, GitHub Copilot, Gemini CLI, Antigravity, Kimi Code, Qwen Code, opencode, Devin, Windsurf, Cline, Roo Code, Kilo Code, Mistral Vibe, Junie, Kiro, Amp and Goose, plus several dozen others listed in its [agents page](https://github.com/vercel-labs/skills/blob/main/docs/agents.md). It does not cover Codewhale or Manus. Some of its directories differ from the ones below (Windsurf, for example, goes to `~/.codeium/windsurf/skills`); each agent's own documentation decides which one it reads.
+
+### Without Node
+
 The skill is one folder, `skills/advisor`. Every agent below loads it from a skills directory, so installing means copying that folder to the right place. `install.py` does the copy and knows each agent's directory.
 
 ```bash
